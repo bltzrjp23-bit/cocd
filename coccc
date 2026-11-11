@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Kingdom Investment Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #120e0c;
+            color: #f5f5f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background-color: #241a16;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.9);
+            overflow-y: auto;
+            padding-bottom: 75px;
+            border-left: 2px solid #5c4033;
+            border-right: 2px solid #5c4033;
+        }
+        .screen {
+            display: none;
+            flex: 1;
+            padding: 20px;
+        }
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Headers & Branding */
+        .app-header {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .badge-th {
+            background: #8b5a2b;
+            padding: 3px 10px;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 12px;
+            border: 1px solid #d4af37;
+        }
+
+        /* Auth Forms */
+        .auth-box {
+            background-color: #382820;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #8b5a2b;
+            margin-top: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            color: #d4af37;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        .input-field {
+            width: 100%;
+            background-color: #120e0c;
+            border: 1px solid #8b5a2b;
+            color: #fff;
+            padding: 12px;
+            font-size: 14px;
+            border-radius: 6px;
+            outline: none;
+        }
+        .btn-coc {
+            background: linear-gradient(to bottom, #7cd314, #48800a);
+            color: #fff;
+            border: 2px solid #2e5204;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-shadow: 1px 1px #000;
+            box-shadow: 0 4px #1c3202;
+            margin-top: 10px;
+        }
+        .btn-coc:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #1c3202;
+        }
+        .btn-gold {
+            background: linear-gradient(to bottom, #ffcc00, #cc9900);
+            color: #120e0c;
+            border: 1px solid #fff;
+        }
+
+        /* Cards & Grid */
+        .townhall-card {
+            background: linear-gradient(135deg, #4b3621, #241a16);
+            border: 2px solid #d4af37;
+            padding: 20px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+        }
+        .grid-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background-color: #382820;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #8b5a2b;
+        }
+        .stat-card span {
+            font-size: 12px;
+            color: #d4af37;
+        }
+        .stat-card h3 {
+            font-size: 18px;
+            margin-top: 5px;
+            color: #fff;
+        }
+
+        /* Marketplace */
+        .troop-card {
+            background-color: #382820;
+            border: 2px solid #8b5a2b;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .troop-img {
+            width: 65px;
+            height: 65px;
+            background: #120e0c;
+            border-radius: 8px;
+            border: 1px solid #d4af37;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+        }
+        .troop-info {
+            flex: 1;
+        }
+        .troop-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+        .troop-detail {
+            font-size: 12px;
+            color: #ccc;
+            margin: 2px 0;
+        }
+
+        /* Bottom Nav */
+        .nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #140e0c;
+            border-top: 2px solid #5c4033;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 100;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #a89f91;
+            font-size: 11px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-weight: bold;
+        }
+        .nav-item.active {
+            color: #ffcc00;
+        }
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- 1. LOGIN SCREEN -->
+    <div id="loginScreen" class="screen active">
+        <div style="text-align: center; margin-top: 40px;">
+            <span style="font-size: 50px;">🛡️</span>
+            <h1 style="color: #ffcc00; text-shadow: 2px 2px #000;">CLASH INVEST</h1>
+            <p style="color: #d4af37; font-size: 13px;">Kingdom Elixir & Resource Platform</p>
+        </div>
+        <div class="auth-box">
+            <div class="input-group">
+                <label>Chief Phone Number</label>
+                <input type="text" id="loginPhone" class="input-field" placeholder="09123456789" value="09123456789">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="loginPass" class="input-field" placeholder="Password" value="123456">
+            </div>
+            <button class="btn-coc" onclick="login()">LOGIN TO VILLAGE</button>
+            <button class="btn-coc btn-gold" onclick="switchAuth('registerScreen')">CREATE NEW ACCOUNT</button>
+        </div>
+    </div>
+
+    <!-- 2. REGISTER SCREEN -->
+    <div id="registerScreen" class="screen">
+        <div style="text-align: center; margin-top: 30px;">
+            <span style="font-size: 40px;">👑</span>
+            <h2 style="color: #ffcc00;">Clan Registration</h2>
+        </div>
+        <div class="auth-box">
+            <div class="input-group">
+                <label>Chief Name / Village Title</label>
+                <input type="text" id="regName" class="input-field" placeholder="e.g. Chief Barbarian">
+            </div>
+            <div class="input-group">
+                <label>Phone Number</label>
+                <input type="text" id="regPhone" class="input-field" placeholder="09123456789">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="regPass" class="input-field" placeholder="Create Password">
+            </div>
+            <button class="btn-coc" onclick="register()">REGISTER & START</button>
+            <div style="text-align: center; margin-top: 15px; font-size: 13px;">
+                Already have a Clan? <span style="color: #ffcc00; cursor: pointer;" onclick="switchAuth('loginScreen')">Login</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. HOME / DASHBOARD SCREEN -->
+    <div id="homeScreen" class="screen">
+        <div class="app-header">
+            <span id="userDisplayName">🏰 Chief Village</span>
+            <span class="badge-th">TH 14</span>
+        </div>
+
+        <div class="townhall-card">
+            <div style="font-size: 12px; color: #d4af37;">Total Elixir Balance</div>
+            <div style="font-size: 28px; font-weight: bold; color: #ff5500; margin: 5px 0;" id="userBalance">💎 $4,250.00</div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 12px; color: #ccc;">Daily Profit: +$120.00</span>
+                <button class="btn-coc btn-gold" style="padding: 6px 12px; font-size: 12px;" onclick="alert('Deposit Feature Ready!')">+ DEPOSIT</button>
+            </div>
+        </div>
+
+        <div class="grid-stats">
+            <div class="stat-card">
+                <span>Active Troops</span>
+                <h3 style="color: #7cd314;" id="activeTroopsCount">2 Units</h3>
+            </div>
+            <div class="stat-card">
+                <span>Total Earned</span>
+                <h3 style="color: #ffcc00;" id="totalEarned">$340.00</h3>
+            </div>
+            <div class="stat-card">
+                <span>Clan Members</span>
+                <h3 style="color: #ffcc00;">0 Members</h3>
+            </div>
+            <div class="stat-card">
+                <span>Account Role</span>
+                <h3 style="color: #ff5500;" id="userRole">Member</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. MARKET (TROOPS) SCREEN -->
+    <div id="marketScreen" class="screen">
+        <div class="app-header">⚔️ Troop Barracks (Market)</div>
+        <p style="font-size: 12px; color: #d4af37; margin-bottom: 15px;">Deploy troops to generate daily elixir returns!</p>
+
+        <div id="marketList">
+            <!-- Dynamic Market Items Render Here -->
+        </div>
+    </div>
+
+    <!-- 5. TEAM / INVITE SCREEN -->
+    <div id="teamScreen" class="screen">
+        <div class="app-header">👥 Clan War Team</div>
+        <div class="townhall-card" style="text-align: center;">
+            <div style="font-size: 15px; font-weight: bold; color: #ffcc00;">Invite Chiefs & Earn Commission</div>
+            <p style="font-size: 12px; color: #ccc; margin-top: 5px;">Earn 10% bonus when your invited clanmates deploy troops.</p>
+            <div style="background: #120e0c; padding: 10px; border-radius: 6px; border: 1px solid #8b5a2b; margin-top: 10px; font-size: 12px; color: #ffcc00; word-break: break-all;" id="refLink">
+                https://bltzrjp23-bit.github.io/ivestment/?ref=chief123
+            </div>
+            <button class="btn-coc btn-gold" style="width:100%; margin-top: 10px;" onclick="alert('Link Copied!')">Copy Invite Link</button>
+        </div>
+    </div>
+
+    <!-- 6. ADMIN DASHBOARD SCREEN -->
+    <div id="adminScreen" class="screen">
+        <div class="app-header">⚙️ Admin Control Panel</div>
+        <div class="auth-box" style="margin-top: 0;">
+            <h3 style="color: #ffcc00; font-size: 14px; margin-bottom: 10px;">Add New Market Item</h3>
+            <div class="input-group">
+                <input type="text" id="adminItemEmoji" class="input-field" placeholder="Emoji (e.g. 🐉)">
+            </div>
+            <div class="input-group">
+                <input type="text" id="adminItemName" class="input-field" placeholder="Troop Name">
+            </div>
+            <div class="input-group">
+                <input type="number" id="adminItemPrice" class="input-field" placeholder="Price ($)">
+            </div>
+            <div class="input-group">
+                <input type="number" id="adminItemDaily" class="input-field" placeholder="Daily Return ($)">
+            </div>
+            <button class="btn-coc" onclick="addMarketItem()">ADD TO MARKETPLACE</button>
+        </div>
+    </div>
+
+    <!-- 7. ACCOUNT SCREEN -->
+    <div id="accountScreen" class="screen">
+        <div class="app-header">📜 Chief Profile</div>
+        <div style="text-
